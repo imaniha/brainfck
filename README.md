@@ -1,36 +1,187 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BrainFCK - Authentication System
 
-## Getting Started
+A secure, full-featured authentication system built with Next.js 15, NextAuth.js v5, PostgreSQL, and Tamagui UI components.
 
-First, run the development server:
+## 🚀 Features
 
+### Core Authentication
+- User registration with email/password
+- Secure login with session management
+- Profile management and updates
+- JWT-based authentication (7-day expiration)
+
+### Security Features
+- bcrypt password hashing (10 salt rounds)
+- Rate limiting (5 attempts per 15 minutes per IP)
+- Security headers (XSS, clickjacking, MIME protection)
+- Server-side route protection
+- Input validation and sanitization
+
+### User Interface
+- Responsive design with Tamagui components
+- Mobile-first approach
+- Dark mode support
+- Form validation with real-time feedback
+- Loading states and error handling
+
+### Technical Stack
+- **Frontend:** Next.js 15 (App Router), React, TypeScript
+- **UI:** Tamagui, Tailwind CSS v4
+- **Authentication:** NextAuth.js v5 with Credentials provider
+- **Database:** PostgreSQL with Prisma ORM
+- **Forms:** React Hook Form + Zod validation
+- **Infrastructure:** Docker Compose
+
+## 📋 Prerequisites
+
+- Node.js 18+
+- Docker and Docker Compose
+- npm or yarn
+
+## 🛠️ Installation
+
+### 1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/imaniha/brainfck.git
+cd brainfck
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Start the database
+```bash
+docker-compose up -d
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Set up the database
+```bash
+# Generate Prisma client
+npx prisma generate
 
-## Learn More
+# (Optional) Push schema to database
+DATABASE_URL="postgresql://postgres:password123@localhost:5432/brainfck" npx prisma db push
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 5. Configure environment variables
+```bash
+# Copy and edit environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your configuration
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 6. Start the development server
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌐 Usage
 
-## Deploy on Vercel
+### Accessing the Application
+- **Application:** http://localhost:3000
+- **Database Admin:** http://localhost:8080
+  - Email: admin@brainfck.com
+  - Password: admin123
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Authentication Flow
+1. Visit the landing page
+2. Click "Sign Up" to create an account
+3. Fill out the registration form
+4. Automatically logged in and redirected to profile
+5. Update profile information as needed
+6. Sign out when finished
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧪 Testing
+
+### Manual Testing
+1. **Signup Flow**
+   - Navigate to `/signup`
+   - Enter valid email, password (8+ chars), and name
+   - Verify account creation and auto-login
+
+2. **Login Flow**
+   - Navigate to `/login`
+   - Enter credentials
+   - Verify successful authentication
+
+3. **Profile Management**
+   - Access `/profile` (requires authentication)
+   - Update name and save changes
+   - Verify profile updates
+
+4. **Security Testing**
+   - Attempt rate limiting (5+ signup attempts)
+   - Test protected route access without authentication
+   - Verify security headers in API responses
+
+### API Testing
+```bash
+# Test signup endpoint
+curl -X POST http://localhost:3000/api/auth/signup \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"test@example.com","password":"password123","name":"Test User"}'
+
+# Test profile endpoint (requires authentication)
+curl http://localhost:3000/api/user/profile \\
+  -H "Authorization: Bearer {jwt_token}"
+```
+
+## 📁 Project Structure
+
+```
+brainfck/
+├── src/
+│   ├── app/
+│   │   ├── api/auth/[...nextauth]/
+│   │   ├── api/auth/signup/
+│   │   ├── api/user/profile/
+│   │   ├── login/
+│   │   ├── signup/
+│   │   ├── profile/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   ├── auth/
+│   │   └── ui/
+│   └── lib/
+│       ├── auth.ts
+│       ├── prisma.ts
+│       ├── rate-limit.ts
+│       └── security.ts
+├── prisma/
+│   └── schema.prisma
+├── docker-compose.yml
+├── AGENTS.md
+├── document.md
+└── README.md
+```
+
+## 🔒 Security Features
+
+- **Password Security:** bcrypt hashing with 10 salt rounds
+- **Session Management:** JWT tokens with 7-day expiration
+- **Rate Limiting:** 5 attempts per 15 minutes per IP address
+- **Security Headers:** XSS protection, clickjacking prevention
+- **Input Validation:** Comprehensive client and server-side validation
+- **Route Protection:** Server-side middleware for protected routes
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- NextAuth.js for authentication
+- Tamagui for UI components
+- Prisma for database tooling
