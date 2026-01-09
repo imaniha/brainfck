@@ -4,9 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
-import { AuthCard, AuthCardHeader, AuthCardTitle, AuthCardDescription, AuthForm, AuthCardFooter } from './ui'
-import { AuthInputWrapper } from './ui/AuthInput'
-import { AuthButton } from './ui/AuthButton'
+import { AuthCard, AuthCardHeader, AuthCardTitle, AuthCardDescription, AuthForm, AuthCardFooter } from '../ui'
+import { AuthInputWrapper } from '../ui/AuthInput'
+import { AuthButton } from '../ui/AuthButton'
 import { XStack, Text, Anchor } from 'tamagui'
 
 const loginSchema = z.object({

@@ -49,7 +49,7 @@ export default function LoginPage() {
           <Text fontSize="$3" color="$gray11">
             Don't have an account?
           </Text>
-          <Link href="/signup" passHref>
+          <Link href="/signup">
             <Anchor
               fontSize="$3"
               color="$blue10"

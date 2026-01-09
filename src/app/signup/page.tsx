@@ -47,7 +47,7 @@ export default function SignupPage() {
           <Text fontSize="$3" color="$gray11">
             Already have an account?
           </Text>
-          <Link href="/login" passHref>
+          <Link href="/login">
             <Anchor
               fontSize="$3"
               color="$blue10"

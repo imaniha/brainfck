@@ -1,7 +1,7 @@
-import { config } from '@tamagui/config/v4'
+import { defaultConfig } from '@tamagui/config/v4'
 import { createTamagui } from 'tamagui'
 
-const tamaguiConfig = createTamagui(config)
+const tamaguiConfig = createTamagui(defaultConfig)
 
 export default tamaguiConfig
 

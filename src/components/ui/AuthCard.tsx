@@ -1,4 +1,4 @@
-import { Card, styled, XStack, YStack } from 'tamagui'
+import { Card, styled, XStack, YStack, Text } from 'tamagui'
 
 // Card container for authentication forms
 export const AuthCard = styled(Card, {
@@ -22,14 +22,14 @@ export const AuthCardHeader = styled(YStack, {
   space: '$2',
 })
 
-export const AuthCardTitle = styled(XStack, {
+export const AuthCardTitle = styled(Text, {
   fontSize: '$6',
   fontWeight: 'bold',
   color: '$color',
   textAlign: 'center',
 })
 
-export const AuthCardDescription = styled(XStack, {
+export const AuthCardDescription = styled(Text, {
   fontSize: '$3',
   color: '$gray11',
   textAlign: 'center',
@@ -38,6 +38,7 @@ export const AuthCardDescription = styled(XStack, {
 
 // Form container within card
 export const AuthForm = styled(YStack, {
+  tag: 'form',
   space: '$4',
   width: '100%',
 })
