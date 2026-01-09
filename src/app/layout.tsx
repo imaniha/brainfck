@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { TamaguiProvider } from 'tamagui'
 import tamaguiConfig from '../tamagui.config'
+import { AuthProvider } from '../components/providers/AuthProvider'
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,7 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TamaguiProvider config={tamaguiConfig}>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </TamaguiProvider>
       </body>
     </html>
