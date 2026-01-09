@@ -1,65 +1,168 @@
-import Image from "next/image";
+'use client'
+
+import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { YStack, XStack, Text, Button, H1, Paragraph, Anchor, Separator } from 'tamagui'
 
 export default function Home() {
+  const { data: session, status } = useSession()
+
+  if (status === 'loading') {
+    return (
+      <YStack flex={1} justifyContent="center" alignItems="center" minHeight="100vh">
+        <Text fontSize="$4">Loading...</Text>
+      </YStack>
+    )
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+    <YStack flex={1} minHeight="100vh" backgroundColor="$background">
+      {/* Navigation Header */}
+      <XStack
+        justifyContent="space-between"
+        alignItems="center"
+        paddingHorizontal="$6"
+        paddingVertical="$4"
+        borderBottomWidth={1}
+        borderBottomColor="$borderColor"
+      >
+        <Text fontSize="$6" fontWeight="bold" color="$color">
+          BrainFCK
+        </Text>
+
+        <XStack space="$4" alignItems="center">
+          {session ? (
+            <>
+              <Text fontSize="$3" color="$gray11">
+                Welcome, {session.user.name}
+              </Text>
+              <Link href="/profile" passHref>
+                <Anchor
+                  fontSize="$3"
+                  color="$blue10"
+                  hoverStyle={{ color: '$blue11' }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Profile
+                </Anchor>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/login" passHref>
+                <Anchor
+                  fontSize="$3"
+                  color="$gray12"
+                  hoverStyle={{ color: '$blue10' }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Login
+                </Anchor>
+              </Link>
+              <Link href="/signup" passHref>
+                <Button size="$3" theme="blue">
+                  Sign Up
+                </Button>
+              </Link>
+            </>
+          )}
+        </XStack>
+      </XStack>
+
+      {/* Hero Section */}
+      <YStack
+        flex={1}
+        justifyContent="center"
+        alignItems="center"
+        paddingHorizontal="$6"
+        paddingVertical="$8"
+        space="$6"
+        maxWidth={800}
+        alignSelf="center"
+        width="100%"
+      >
+        <YStack space="$4" alignItems="center" textAlign="center">
+          <H1
+            fontSize="$9"
+            fontWeight="bold"
+            color="$color"
+            lineHeight="$9"
+            maxWidth={600}
+          >
+            Welcome to BrainFCK
+          </H1>
+
+          <Paragraph
+            fontSize="$5"
+            color="$gray11"
+            lineHeight="$6"
+            maxWidth={500}
+            textAlign="center"
+          >
+            A secure authentication system built with Next.js, providing seamless user management
+            and profile customization for your applications.
+          </Paragraph>
+        </YStack>
+
+        {!session && (
+          <XStack space="$4" alignItems="center">
+            <Link href="/signup" passHref>
+              <Button size="$5" theme="blue" fontWeight="600">
+                Get Started
+              </Button>
+            </Link>
+            <Link href="/login" passHref>
+              <Anchor
+                fontSize="$4"
+                color="$blue10"
+                hoverStyle={{ color: '$blue11' }}
+                style={{ cursor: 'pointer' }}
+              >
+                Sign In
+              </Anchor>
+            </Link>
+          </XStack>
+        )}
+
+        {session && (
+          <YStack space="$4" alignItems="center">
+            <Text fontSize="$4" color="$gray11">
+              You're signed in as {session.user.email}
+            </Text>
+            <Link href="/profile" passHref>
+              <Button size="$4" theme="blue">
+                Go to Profile
+              </Button>
+            </Link>
+          </YStack>
+        )}
+      </YStack>
+
+      {/* Footer */}
+      <YStack
+        paddingHorizontal="$6"
+        paddingVertical="$4"
+        borderTopWidth={1}
+        borderTopColor="$borderColor"
+        alignItems="center"
+      >
+        <XStack space="$6" alignItems="center">
+          <Text fontSize="$2" color="$gray10">
+            © 2026 BrainFCK. Built with Next.js and Tamagui.
+          </Text>
+          <Separator vertical />
+          <Anchor
+            href="https://github.com/imaniha/brainfck"
             target="_blank"
             rel="noopener noreferrer"
+            fontSize="$2"
+            color="$gray10"
+            hoverStyle={{ color: '$blue10' }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+            View on GitHub
+          </Anchor>
+        </XStack>
+      </YStack>
+    </YStack>
+  )
 }
