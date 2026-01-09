@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import Link from 'next/link'
@@ -10,12 +10,14 @@ import { YStack, XStack, Text, Anchor } from 'tamagui'
 export default function LoginPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/profile'
 
   useEffect(() => {
     if (session) {
-      router.push('/profile')
+      router.push(callbackUrl)
     }
-  }, [session, router])
+  }, [session, router, callbackUrl])
 
   if (status === 'loading') {
     return (
